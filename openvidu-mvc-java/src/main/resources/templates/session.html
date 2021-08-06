@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8"/>
+		<title>Furuoka Drug</title>
+		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon"/>
+		<link rel="styleSheet" href="style.css" type="text/css" media="screen"/>
+		<script src="openvidu-browser-2.18.0.js"></script>
+
+		<!-- Bootstrap-->
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+			  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+				integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<!-- Bootstrap -->
+
+		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"/>
+		<script src="https://kit.fontawesome.com/57b32f399d.js" crossorigin="anonymous"></script>
+		<script src="main.js" defer></script>
+	</head>
+
+	<body>
+		<!-- Header -->
+		<header>
+			<div class="logo">
+				<i class="fab fa-youtube"></i>
+				<a href="">Furuoka Drug</a>
+			</div>
+		</header>
+
+		<div id="main-container" class="container">
+			<div id="session">
+				<div id="session-header">
+					<h2 th:text="${sessionName}" id="session-title">Room name</h2>
+					<form action="/leave-session" method="post">
+						<input type="hidden" name="session-name" th:value="${sessionName}"/>
+						<input type="hidden" name="token" th:value="${token}"/>
+						<button id="buttonLeaveSession" class="btn btn-large btn-danger" type="submit" onclick="leaveSession()">
+							Leave session</button>
+					</form>
+				</div>
+
+				<!-- Video Player -->
+<!--				<div id="main-video" class="col-md-8">-->
+				<div id="main-video">
+					<p class="nickName"></p>
+					<p class="userName"></p>
+					<video autoplay playsinline="true"></video>
+				</div>
+<!--				<div id="video-container" class="col-md-4"></div>-->
+				<div id="video-container"></div>
+			</div>
+		</div>
+
+		<div class="infoAndUpNext">
+			<!-- Vide Info -->
+			<section class="info">
+				<!-- Metadata -->
+				<div class="metadata">
+					<ul class="hashtags">
+						<li>#hirosopy wechat</li>
+						<li>#hirosopy facebook</li>
+						<li>#hirosopy homepage</li>
+					</ul>
+					<ul class="products">
+						<li>
+							<button><img src="images/avatar.png" alt=""/><span>￥500</span></button>
+						</li>
+						<li>
+							<button><img src="images/avatar.png" alt=""/><span>￥500</span></button>
+						</li>
+						<li>
+							<button><img src="images/avatar.png" alt=""/><span>￥500</span></button>
+						</li>
+						<li>
+							<button><img src="images/avatar.png" alt=""/><span>￥500</span></button>
+						</li>
+						<li>
+							<button><img src="images/avatar.png" alt=""/><span>￥500</span></button>
+						</li>
+					</ul>
+				</div>
+
+				<!-- Channel Description -->
+				<div class="channel">
+					<form action="https://gw.ccps.jp/payment.aspx" method="get">
+						<input type="hidden" name="sid" value="110106"><!-- 店舗ID-->
+						<input type="hidden" name="svid" value="23">
+						<input type="hidden" name="ptype" value="8">
+						<input type="hidden" name="job" value="REQUEST">
+						<input type="hidden" name="lang" value="cn">WeChat Payment
+						<input type="hidden" name="sod" value="オーダー番号">
+						<input type="hidden" name="method" value="QR">
+						<input type="hidden" name="sinm1" value="商品名">
+						<input type="txt" name="siam1" value="1000">
+						<input type="txt" name="sisf1" value="500">
+						<input type="submit" value="WeChatNativePayment決済フォームへ">
+						<input type="submit" class="payment" value="payment">
+					</form>
+					<form action="https://gw.ccps.jp/payment.aspx" method="get">
+						<input type="hidden" name="sid" value="110106"><!-- 店舗ID-->
+						<input type="hidden" name="svid" value="23">
+						<input type="hidden" name="ptype" value="8">
+						<input type="hidden" name="job" value="REQUEST">
+						<input type="hidden" name="lang" value="cn">AliPay Payment
+						<input type="hidden" name="sod" value="オーダー番号">
+						<input type="hidden" name="method" value="QR">
+						<input type="hidden" name="sinm1" value="商品名">
+						<input type="txt" name="siam1" value="1000">
+						<input type="txt" name="sisf1" value="500">
+						<input type="submit" value="WeChatNativePayment決済フォームへ">
+						<input type="submit" class="payment" value="payment">
+					</form>
+
+				</div>
+			</section>
+
+			<!-- Up Next -->
+			<section class="upNext">
+				<span class="title">Up next</span>
+				<ul>
+					<li class="item">
+						<div class="img"><img src="images/caviar.jpg" alt=""></div>
+						<div class="info">
+							<span class="title">”細胞の活性化”をテーマに、細胞（セル）を輝かせる（ブライト）ためのラグジュアリースキンケアシリーズ</span>
+							<span class="name">キャビアシリーズ</span>
+						</div>
+					</li>
+					<li class="item">
+						<div class="img"><img src="images/ongonsen.jpg" alt=""></div>
+						<div class="info">
+							<span class="title">”日本の温泉水をベースに、金沢の金箔や白金、EGF・スクワランを配合した高級エイジングケアシリーズ</span>
+							<span class="name">温金泉シリーズ</span>
+						</div>
+					</li>
+					<li class="item">
+						<div class="img"><img src="images/sakura.jpg" alt=""></div>
+						<div class="info">
+							<span class="title">”ひとつひとつ手摘みした日本産の桜の花から抽出した希少なエキス配合のエイジングケアシリーズ</span>
+							<span class="name">桜シリーズ</span>
+						</div>
+					</li>
+				</ul>
+			</section>
+		</div>
+
+		<!-- Footer
+		<footer class="footer">
+			<div class="container">
+				<div class="text-muted">Copyright © HIROSOPHY All Right Reserved.</div>
+				<a href="https://hirosophy.com/" target="_blank">
+					<img class="footer-logo" src="images/footer_logo.png" />
+				</a>
+			</div>
+		</footer>-->
+	</body>
+
+	<script th:inline="javascript">
+		// Thymeleaf 스타일의 템플릿에서 모든 속성 가져오기
+		var sessionName = [[${ sessionName }]];
+		var token = [[${ token }]];
+		var nickName = [[${ nickName }]];
+		var userName = [[${ userName }]];
+
+		console.warn('Request of TOKEN gone WELL (TOKEN:' + token + ')');
+
+		// 1) Get an OpenVidu object
+		OV = new OpenVidu();
+
+		// 2) Init a session
+		session = OV.initSession();
+
+		// 3) 세션에서 이벤트가 발생할 때 작업을 지정합니다.
+		// 수신된 모든 새 스트림에서...
+		session.on('streamCreated', (event) => {
+
+			// 그것을 받으려면 스트림을 구독하십시오
+			// HTML 비디오는 'video-container' ID가 있는 요소에 추가됩니다.
+			var subscriber = session.subscribe(event.stream, 'video-container');
+
+			// HTML 비디오가 DOM 에 추가되었을 때...
+			subscriber.on('videoElementCreated', (event) => {
+
+				// 동영상에 사용자 이름과 닉네임에 대한 새 HTML 요소 추가
+				appendUserData(event.element, subscriber.stream.connection);
+			});
+		});
+
+		// 모든 스트림이 파괴될 때마다...
+		session.on('streamDestroyed', (event) => {
+			// 사용자 이름과 닉네임이 있는 HTML 요소 삭제
+			removeUserData(event.stream.connection);
+		});
+
+		// On every asynchronous exception...
+		session.on('exception', (exception) => {
+			console.warn(exception);
+		});
+
+		// 4) 검색된 토큰과 클라이언트에서 더 많은 데이터를 전달하는 세션에 연결합니다(이 경우 사용자가 선택한 닉네임이 있는 JSON)
+		session.connect(token, { clientData: nickName })
+			.then(() => {
+
+				// 5) 활성 통화에 대한 페이지 레이아웃 설정
+				$('#session-title').text(sessionName);
+				$('#join').hide();
+				$('#session').show();
+
+
+				/*여기에서 스트림을 게시하기 전에 사용자에게 'PUBLISHER' 역할이 있는지 확인합니다.
+				  누군가 클라이언트의 코드를 수정하고 스트림을 퍼블리싱하더라도 Session.connect 메소드에서 보낸 토큰이
+				  OpenVidu Server에서 'PUBLIHSER' 역할로 인식되지 않으면 작동하지 않습니다.*/
+				if (isPublisher()) {
+
+					// 6) Get your own camera stream
+					var publisher = OV.initPublisher('video-container', {
+						audioSource: undefined, // 오디오 소스입니다. 정의되지 않은 경우 기본 마이크
+						videoSource: undefined, // 영상 출처. 정의되지 않은 경우 기본 웹캠
+						publishAudio: true,  	// 오디오를 음소거 해제한 상태로 게시를 시작할지 여부
+						publishVideo: true,  	// 비디오를 활성화한 상태에서 게시를 시작할지 여부
+						resolution: '640x480',  // 비디오의 해상도
+						frameRate: 30,			// 비디오의 프레임 속도
+						insertMode: 'APPEND',	// 대상 요소 'video-container'에 비디오가 삽입되는 방식
+						mirror: false       	// 로컬 비디오 미러링 여부
+					});
+
+					// 7) 게시자에서 이벤트가 발생할 때의 작업 지정
+
+					// When our HTML video has been added to DOM...
+					publisher.on('videoElementCreated', (event) => {
+						// Init the main video with ours and append our data
+						var userData = {
+							nickName: nickName,
+							userName: userName
+						};
+						initMainVideo(event.element, userData);
+						appendUserData(event.element, userData);
+						$(event.element).prop('muted', true); // Mute local video
+					});
+
+
+					// 8) 스트림 게시---
+					session.publish(publisher);
+
+				} else {
+					console.warn('You don\'t have permissions to publish');
+					initMainVideoThumbnail(); // 메인 영상에 SUBSCRIBER 메시지 표시
+				}
+			})
+			.catch(error => {
+				console.warn('There was an error connecting to the session:', error.code, error.message);
+			});
+
+
+		// 9) Session 개체에 대해 'disconnect' 메서드를 호출하여 세션을 종료합니다.
+		function leaveSession() {
+			session.disconnect();
+		}
+
+		function appendUserData(videoElement, connection) {
+			var clientData;
+			var serverData;
+			var nodeId;
+			if (connection.nickName) { // Appending local video data
+				clientData = connection.nickName;
+				serverData = connection.userName;
+				nodeId = 'main-video';
+			} else {
+				clientData = JSON.parse(connection.data.split('%/%')[0]).clientData;
+				serverData = JSON.parse(connection.data.split('%/%')[1]).serverData;
+				nodeId = connection.connectionId;
+			}
+			var dataNode = document.createElement('div');
+			dataNode.className = "data-node";
+			dataNode.id = "data-" + nodeId;
+			dataNode.innerHTML = '<p class="nickName">' + clientData + '</p><p class="userName">' + serverData + '</p>';
+			videoElement.parentNode.insertBefore(dataNode, videoElement.nextSibling);
+			addClickListener(videoElement, clientData, serverData);
+		}
+
+		function removeUserData(connection) {
+			var userNameRemoved = $("#data-" + connection.connectionId);
+			if ($(userNameRemoved).find('p.userName').html() === $('#main-video p.userName').html()) {
+				cleanMainVideo(); // The participant focused in the main video has left
+			}
+			$("#data-" + connection.connectionId).remove();
+		}
+
+		function removeAllUserData() {
+			$(".data-node").remove();
+		}
+
+		function cleanMainVideo() {
+			$('#main-video video').get(0).srcObject = null;
+			$('#main-video p').each(function () {
+				$(this).html('');
+			});
+		}
+
+		function addClickListener(videoElement, clientData, serverData) {
+			videoElement.addEventListener('click', function () {
+				var mainVideo = $('#main-video video').get(0);
+				if (mainVideo.srcObject !== videoElement.srcObject) {
+					$('#main-video').fadeOut("fast", () => {
+						$('#main-video p.nickName').html(clientData);
+						$('#main-video p.userName').html(serverData);
+						mainVideo.srcObject = videoElement.srcObject;
+						$('#main-video').fadeIn("fast");
+					});
+				}
+			});
+		}
+
+		function initMainVideo(videoElement, userData) {
+			$('#main-video video').get(0).srcObject = videoElement.srcObject;
+			$('#main-video p.nickName').html(userData.nickName);
+			$('#main-video p.userName').html(userData.userName);
+			$('#main-video video').prop('muted', true);
+		}
+
+		function initMainVideoThumbnail() {
+			$('#main-video video').css("background", "url('images/subscriber-msg.jpg') round");
+		}
+
+		function isPublisher() {
+			return userName.includes('publisher');
+		}
+	</script>
+</html>
